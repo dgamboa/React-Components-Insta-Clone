@@ -18,7 +18,7 @@ const App = () => {
   // This state is the source of truth for the data inside the app. You won't be needing dummyData anymore.
   // To make the search bar work (which is stretch) we'd need another state to hold the search term.
   const [posts, setPosts] = useState(dummyData);
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
 
   const likePost = postId => {
     /*
@@ -32,17 +32,40 @@ const App = () => {
         - if the `id` of the post matches `postId`, return a new post object with the desired values (use the spread operator).
         - otherwise just return the post object unchanged.
      */
-    setPosts(posts.map(post => {
-      return post.id === postId ? {...post, likes: post.likes + 1} : post
+
+    // This is a hacked implementation of preventing users from liking
+    // posts more than once. It seems like you'd need state at the like level
+    // to implement it appropriately
+    setPosts(posts.map((post, index) => {
+      if (post.likes <= dummyData[index].likes) {
+        return post.id === postId ? {...post, likes: post.likes + 1} : post
+      } else {
+        return post.id === postId ? {...post, likes: post.likes - 1} : post
+      }
     }))
   };
+
+  const searchFilter = term => {
+    if (term === '') {
+      return setPosts(dummyData);
+    } else {
+      return setPosts(posts.filter(post => {
+        return post.username.toLowerCase().match(term.toLowerCase())
+      }))
+    }
+  }
+
+  const submitComment = event => {
+    event.preventDefault();
+    console.log()
+  }
 
   return (
     <div className='App'>
       {/* Add SearchBar and Posts here to render them */}
       {/* Check the implementation of each component, to see what props they require, if any! */}
-      <SearchBar />
-      <Posts likePost={likePost} posts={posts}/>
+      <SearchBar searchFilter={searchFilter}/>
+      <Posts likePost={likePost} posts={posts} submitComment={submitComment}/>
     </div>
   );
 };

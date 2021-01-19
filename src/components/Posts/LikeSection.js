@@ -4,7 +4,8 @@
 // (As a stretch goal, you might want to prevent your user from "liking" the same post more than once.)
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faComment, faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+// import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
 const LikeSection = props => {
   // 🔥 Make sure the parent of LikeSection is passing the right props!
@@ -17,7 +18,7 @@ const LikeSection = props => {
         key='likes-icons-container'
       >
         <div className='like-section-wrapper'>
-          <FontAwesomeIcon icon={faHeart} onClick={likePost}/>
+          <FontAwesomeIcon icon={farHeart} onClick={likePost}/>
         </div>
         <div className='like-section-wrapper'>
           <FontAwesomeIcon icon={faComment} />
